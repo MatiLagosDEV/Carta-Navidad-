@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#012e29">
+<title>Navidad con Corazón — Voluntariado Infantil Navideño</title>
+<meta name="description" content="Recibimos las cartas que los niños de Concepción le escriben a Santa y buscamos a alguien que cumpla cada deseo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Inter+Tight:wght@400;500;600&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<main>
+  <section class="envoltorio hero">
+    <div>
+      <p class="etiqueta">Concepción, Chile · desde 2019</p>
+      <h1>Cumple el sueño<br><em>de un niño.</em></h1>
+      <p class="hero-bajada">
+        Recibimos las cartas que los niños le escriben a Santa y hacemos sus deseos realidad.
+      </p>
+      <div class="hero-acciones">
+        <a class="btn btn-coral" href="lista-de-regalos.html">Dona un regalo</a>
+        <a class="btn btn-linea" href="voluntarios.html">Ser voluntario</a>
+      </div>
+    </div>
+
+    <!-- Firma del diseño: una carta real de la lista, que cambia automáticamente -->
+    <div class="pliego">
+      <div class="carta-fondo" aria-hidden="true"></div>
+      <article class="carta">
+        <div class="carta-encabezado">
+          <p class="carta-meta" id="cartaMeta">Carta de un niño</p>
+          <span class="sello sello-coral" aria-hidden="true">Para<br>Santa<br><span data-cfg="anio">2026</span></span>
+        </div>
+
+        <div aria-live="polite">
+          <p class="carta-texto" id="cartaTexto">Hola Santa, este año me porté casi siempre bien. Te dejo escrito lo que más quiero.</p>
+          <p class="carta-firma" id="cartaFirma">&nbsp;</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="nc-seccion" id="nc-seccion" aria-label="Lo que dicen de nosotros">
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <symbol id="nc-gorro" viewBox="0 0 40 36">
+        <path d="M7 27 C9 14 17 7 27 7 C31 7 34 9 35 13 C31 13 30 18 32 27 Z" fill="#d94a4a"/>
+        <circle cx="35" cy="11" r="5" fill="#fff" stroke="#d9d9d9" stroke-width=".8"/>
+        <rect x="4" y="24" width="32" height="8" rx="4" fill="#fff" stroke="#d0d0d0" stroke-width=".8"/>
+      </symbol>
+      <symbol id="nc-estrella" viewBox="0 0 12 12">
+        <path d="M6 0 L7.4 4.6 L12 6 L7.4 7.4 L6 12 L4.6 7.4 L0 6 L4.6 4.6 Z" fill="#f5c542"/>
+      </symbol>
+    </svg>
+    <svg class="nc-luces" id="nc-luces" aria-hidden="true"></svg>
+    <h2 class="nc-titulo">Lo que dicen de nosotros</h2>
+    <div class="nc-visor">
+      <div class="nc-pista" id="nc-pista"></div>
+    </div>
+  </section>
+
+  <section class="cita">
+    <div class="envoltorio">
+      <blockquote>Honraré la <span>Navidad</span> en mi corazón y procuraré <span>conservarla</span> todo el año.</blockquote>
+      <cite>— Charles Dickens</cite>
+    </div>
+  </section>
+
+  <section class="envoltorio seccion oculto" id="seccionComentarios">
+    <p class="etiqueta">Quienes ya fueron parte</p>
+    <div class="ticker ticker-comentarios" aria-label="Comentarios de voluntarios y donantes">
+      <div class="ticker-pista" id="pistaComentarios"></div>
+    </div>
+  </section>
+
+  <section class="cierre">
+    <div class="envoltorio">
+      <span class="sello sello-celeste" aria-hidden="true">Queda<br>una<br>carta</span>
+      <h2>Todavía hay deseos sin dueño</h2>
+      <p>Elige una carta, resérvala a tu nombre y nosotros nos encargamos del resto.</p>
+      <p class="aviso-construccion" style="margin-top:44px;">
+        <span data-cfg="aviso_home"></span><br>
+        Mientras tanto, visita nuestro Instagram
+        <a data-cfg-href="instagram" target="_blank" rel="noopener">@<span data-cfg="instagram_usuario"></span></a>
+      </p>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/datos.js"></script>
+<script src="js/layout.js"></script>
+<script src="js/nos-acompanan.js"></script>
+<script src="js/home.js"></script>
+</body>
+</html>

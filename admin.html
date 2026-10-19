@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#012e29">
+<meta name="robots" content="noindex, nofollow">
+<title>Panel admin — Navidad Con Corazón</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Inter+Tight:wght@400;500;600&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<main class="envoltorio" style="padding: 48px 0 80px;">
+  <header class="cabecera-pagina" style="padding-bottom:24px;">
+    <p class="etiqueta">Uso interno</p>
+    <h1>Panel de <em>administración</em></h1>
+  </header>
+
+  <div class="admin-bar">
+    <nav class="tabs">
+      <button class="tab activa" data-tab="regalos">Regalos</button>
+      <button class="tab" data-tab="comentarios">Comentarios del slider</button>
+      <button class="tab" data-tab="config">Configuración</button>
+      <button class="tab" data-tab="mensajes">Mensajes</button>
+    </nav>
+    <button class="btn btn-secundario" id="btnLogout">Cerrar sesión</button>
+  </div>
+
+  <div id="mensajeAdmin"></div>
+
+  <section class="panel" id="panel-regalos">
+    <div class="controles">
+      <input type="text" id="buscadorAdmin" placeholder="Buscar por nombre del niño...">
+      <select id="filtroEstadoAdmin">
+        <option value="">Todos los estados</option>
+        <option value="disponible">Disponible</option>
+        <option value="reservado">Reservado</option>
+        <option value="entregado">Entregado</option>
+      </select>
+      <button class="btn btn-primario" id="btnNuevo">+ Registrar regalo</button>
+      <button class="btn btn-secundario" id="btnImportar">Importar planilla</button>
+      <button class="btn btn-secundario" id="btnExportar">Exportar CSV</button>
+    </div>
+
+    <div class="tabla-wrap">
+      <table class="admin-tabla">
+        <thead><tr>
+          <th>Niño</th><th>Institución</th><th>Opción 1</th><th>Opción 2</th>
+          <th>Estado</th><th>Donador</th><th>Contacto</th><th>Encargado</th><th>Acciones</th>
+        </tr></thead>
+        <tbody id="tablaBody">
+          <tr><td colspan="9"><span class="skeleton linea larga">&nbsp;</span></td></tr>
+          <tr><td colspan="9"><span class="skeleton linea larga">&nbsp;</span></td></tr>
+          <tr><td colspan="9"><span class="skeleton linea larga">&nbsp;</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel oculto" id="panel-comentarios">
+    <p class="texto-intro">Estos comentarios son los que rotan en el slider de la portada.</p>
+    <form class="form-panel" id="formComentario">
+      <label for="comTexto">Comentario</label>
+      <textarea id="comTexto" placeholder="Lo que dijo esta persona..." required></textarea>
+      <label for="comAutor">Autor</label>
+      <input type="text" id="comAutor" placeholder="Voluntaria, versión 2024" required>
+      <button class="btn btn-primario" type="submit">Agregar comentario</button>
+    </form>
+    <div id="listaComentarios" class="lista-simple"></div>
+  </section>
+
+  <section class="panel oculto" id="panel-config">
+    <p class="texto-intro">Estos valores alimentan el header, el footer y la página de contacto de todo el sitio.</p>
+    <form class="form-panel" id="formConfig"></form>
+  </section>
+
+  <section class="panel oculto" id="panel-mensajes">
+    <p class="texto-intro">Mensajes recibidos desde el formulario de contacto.</p>
+    <div id="listaMensajes" class="lista-simple"></div>
+  </section>
+</main>
+
+<div class="overlay oculto" id="overlayForm">
+  <div class="modal">
+    <h2 id="formTitulo">Registrar regalo</h2>
+    <input type="hidden" id="formId">
+
+    <label for="formNombre">Nombre del niño/a</label>
+    <input type="text" id="formNombre">
+
+    <label for="formInstitucion">Institución</label>
+    <input type="text" id="formInstitucion">
+
+    <label for="formOpcion1">Opción de regalo 1</label>
+    <input type="text" id="formOpcion1">
+
+    <label for="formOpcion2">Opción de regalo 2 (opcional)</label>
+    <input type="text" id="formOpcion2">
+
+    <label for="formEncargado">Encargado/a</label>
+    <input type="text" id="formEncargado">
+
+    <div id="bloqueFoto">
+      <label for="formFoto">Foto del regalo (opcional)</label>
+      <p class="nota-campo">Se ve en el sitio solo si activaste "Mostrar la foto de cada regalo" en Configuración. JPG, PNG, WEBP o GIF, hasta 3 MB.</p>
+      <input type="file" id="formFoto" accept="image/jpeg,image/png,image/webp,image/gif">
+      <div class="foto-previa oculto" id="fotoPrevia">
+        <img id="fotoPreviaImg" alt="Vista previa de la foto del regalo">
+        <button type="button" class="btn btn-secundario btn-pequeno" id="btnQuitarFoto">Quitar foto</button>
+      </div>
+    </div>
+
+    <label for="formEstado">Estado</label>
+    <select id="formEstado" class="select-ancho">
+      <option value="disponible">Disponible</option>
+      <option value="reservado">Reservado</option>
+      <option value="entregado">Entregado</option>
+    </select>
+
+    <div id="mensajeForm"></div>
+
+    <div class="modal-acciones">
+      <button class="btn btn-secundario" id="btnCancelarForm">Cancelar</button>
+      <button class="btn btn-primario" id="btnGuardarForm">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay oculto" id="overlayImportar">
+  <div class="modal modal-ancho">
+    <h2>Importar planilla de regalos</h2>
+    <p class="nota-campo">
+      Archivo <b>.xlsx</b>, <b>.xls</b> o <b>.csv</b>. La primera fila son los títulos de las
+      columnas. Se leen: <b>Nombre</b>, <b>Institución</b>, <b>Regalo (Opción 1)</b>,
+      <b>Regalo (Opción 2)</b>, <b>Estado</b>, <b>Nombre Donador/a</b> y <b>Encargado</b>.
+      Las columnas que no estén se dejan vacías; las que sobren se ignoran.
+    </p>
+
+    <label for="archivoImportar">Elige el archivo</label>
+    <input type="file" id="archivoImportar" accept=".xlsx,.xls,.csv">
+
+    <div id="resumenImportar"></div>
+
+    <div class="modal-acciones">
+      <button class="btn btn-secundario" id="btnCancelarImportar">Cancelar</button>
+      <button class="btn btn-primario oculto" id="btnConfirmarImportar">Importar</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Lee .xlsx en el navegador. Un .xlsx es un ZIP de XML: escribir el lector
+     a mano serían cientos de líneas frágiles, así que aquí sí vale la librería. -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/datos.js"></script>
+<script src="js/importar.js"></script>
+<script src="js/layout.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

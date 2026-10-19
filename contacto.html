@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#012e29">
+<title>Contacto — Navidad Con Corazón</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Inter+Tight:wght@400;500;600&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<main class="pagina-ancho">
+  <header class="cabecera-pagina">
+    <p class="etiqueta">Contacto</p>
+    <h1>¿Quieres <em>hablar</em> con nosotros?</h1>
+  </header>
+
+  <div class="dos-columnas">
+    <div>
+      <p class="texto-intro">
+        Si tienes dudas, comentarios, o simplemente quieres comunicarte con el equipo,
+        puedes escribirnos directamente desde aquí. Estaremos felices de ayudarte.
+      </p>
+
+      <div class="redes-lista">
+        <h2>Nuestras redes</h2>
+        <p><img src="https://framerusercontent.com/images/Kb44pGWynaA3cTDhz3nAtVYnJI.png?scale-down-to=64" alt=""> <span data-cfg="instagram_usuario"></span></p>
+        <p><img src="https://framerusercontent.com/images/ZeP9DTAVXq9grMbbXu7HPzD4.png?scale-down-to=64" alt=""> <span data-cfg="linkedin_usuario"></span></p>
+        <p><img src="https://framerusercontent.com/images/XkVTjpg6SGdUQQFGNwjY0NYcvvc.png?scale-down-to=64" alt=""> <span data-cfg="email_contacto"></span></p>
+      </div>
+    </div>
+
+    <form class="form-contacto papel-superficie" id="formContacto" novalidate>
+      <div id="mensajeContacto"></div>
+
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" placeholder="Nicolás Rojo" autocomplete="name" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="nicolas@polonorte.com" autocomplete="email" inputmode="email" required>
+
+      <label for="mensaje">Mensaje</label>
+      <textarea id="mensaje" placeholder="Ho ho ho, les escribo con el motivo de..." required></textarea>
+
+      <button type="submit" class="btn btn-coral">Enviar</button>
+    </form>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/datos.js"></script>
+<script src="js/layout.js"></script>
+<script src="js/contacto.js"></script>
+</body>
+</html>
