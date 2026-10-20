@@ -12,66 +12,68 @@
 </head>
 <body>
 
-<main class="envoltorio pagina-lista">
-  <header class="cabecera-pagina">
-    <p class="etiqueta">La lista completa</p>
-    <h1>Lista de <em>regalos</em></h1>
-    <p>Elige una carta, resérvala a tu nombre y nosotros nos encargamos del resto.</p>
-  </header>
-
-  <div class="resumen" id="resumen">
-    <span class="pill skeleton" style="width:130px;">&nbsp;</span>
-    <span class="pill skeleton" style="width:110px;">&nbsp;</span>
-    <span class="pill skeleton" style="width:110px;">&nbsp;</span>
+<main>
+  <div class="envoltorio">
+    <header class="cabecera-pagina">
+      <p class="etiqueta">2026</p>
+      <h1>Lista de <em>regalos</em></h1>
+      <p>Plazo para que nos entregues tu regalo: Miércoles 16 de Diciembre</p>
+    </header>
   </div>
 
-  <div class="controles">
-    <input type="text" id="buscador" placeholder="Buscar por nombre del niño o regalo...">
-    <select id="filtroInstitucion"><option value="">Todas las instituciones</option></select>
-    <select id="filtroEstado">
-      <option value="">Todos los estados</option>
-      <option value="disponible">Disponible</option>
-      <option value="reservado">Reservado</option>
-      <option value="entregado">Entregado</option>
-    </select>
-  </div>
+  <section class="claro seccion">
+    <div class="envoltorio">
+      <p class="etiqueta">Cómo funciona</p>
+      <h2 class="titulo-seccion">De la carta a la entrega</h2>
 
-  <div class="grid" id="grid">
-    <div class="card card-skeleton"><span class="skeleton linea corta">&nbsp;</span><span class="skeleton linea media">&nbsp;</span><span class="skeleton linea larga">&nbsp;</span><span class="skeleton linea boton">&nbsp;</span></div>
-    <div class="card card-skeleton"><span class="skeleton linea corta">&nbsp;</span><span class="skeleton linea media">&nbsp;</span><span class="skeleton linea larga">&nbsp;</span><span class="skeleton linea boton">&nbsp;</span></div>
-    <div class="card card-skeleton"><span class="skeleton linea corta">&nbsp;</span><span class="skeleton linea media">&nbsp;</span><span class="skeleton linea larga">&nbsp;</span><span class="skeleton linea boton">&nbsp;</span></div>
-    <div class="card card-skeleton"><span class="skeleton linea corta">&nbsp;</span><span class="skeleton linea media">&nbsp;</span><span class="skeleton linea larga">&nbsp;</span><span class="skeleton linea boton">&nbsp;</span></div>
+      <div class="pasos">
+        <div class="paso">
+          <h3>Recolectamos las cartas</h3>
+          <p>Visitamos los colegios y jardines infantiles que colaboran con nosotros para reunir las cartas en las que cada niño escribe qué regalo desea recibir en Navidad.</p>
+        </div>
+        <div class="paso">
+          <h3>Eliges uno o más deseos</h3>
+          <p>Inscríbete para regalar uno o más regalos que pidieron los niños, y coordina con el equipo de Navidad con Corazón su entrega.</p>
+        </div>
+        <div class="paso">
+          <h3>Entregamos los regalos</h3>
+          <p>En diciembre, celebramos una jornada recreativa con talleres, juegos y actividades, donde cada niño recibe el regalo que pidió y disfruta de una Navidad especial.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="envoltorio pagina-lista lista-bloque">
+    <div class="resumen" id="resumen">
+      <span class="pill skeleton" style="width:130px;">&nbsp;</span>
+      <span class="pill skeleton" style="width:110px;">&nbsp;</span>
+      <span class="pill skeleton" style="width:110px;">&nbsp;</span>
+    </div>
+
+    <div class="controles">
+      <input type="text" id="buscador" placeholder="Buscar por nombre del niño o regalo...">
+      <select id="filtroInstitucion"><option value="">Todas las instituciones</option></select>
+      <select id="filtroEstado">
+        <option value="">Todos los estados</option>
+        <option value="disponible">Disponible</option>
+        <option value="reservado">Reservado</option>
+        <option value="entregado">Entregado</option>
+      </select>
+    </div>
+
+    <div class="grid" id="grid">
+      <div class="card card-skeleton"><span class="skeleton linea corta">&nbsp;</span><span class="skeleton linea media">&nbsp;</span><span class="skeleton linea larga">&nbsp;</span><span class="skeleton linea boton">&nbsp;</span></div>
+      <div class="card card-skeleton"><span class="skeleton linea corta">&nbsp;</span><span class="skeleton linea media">&nbsp;</span><span class="skeleton linea larga">&nbsp;</span><span class="skeleton linea boton">&nbsp;</span></div>
+      <div class="card card-skeleton"><span class="skeleton linea corta">&nbsp;</span><span class="skeleton linea media">&nbsp;</span><span class="skeleton linea larga">&nbsp;</span><span class="skeleton linea boton">&nbsp;</span></div>
+      <div class="card card-skeleton"><span class="skeleton linea corta">&nbsp;</span><span class="skeleton linea media">&nbsp;</span><span class="skeleton linea larga">&nbsp;</span><span class="skeleton linea boton">&nbsp;</span></div>
+    </div>
   </div>
 </main>
 
-<section class="claro seccion">
+<section class="cintillo-coral">
   <div class="envoltorio">
-    <p class="etiqueta">Cómo funciona</p>
-    <h2 class="titulo-seccion">De la carta a la entrega</h2>
-
-    <div class="pasos">
-      <div class="paso">
-        <h3>Recolectamos las cartas</h3>
-        <p>Vamos a los colegios y jardines aliados y guardamos lo que cada niño le pidió a Santa, con su nombre y su curso.</p>
-      </div>
-      <div class="paso">
-        <h3>Adoptas un deseo</h3>
-        <p>Cada carta se publica en la lista. Eliges una, la reservas a tu nombre y compras ese regalo, no otro.</p>
-      </div>
-      <div class="paso">
-        <h3>Se lo entregamos</h3>
-        <p>En diciembre reunimos a todos los niños en una tarde de talleres y juegos, y ahí reciben su regalo.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="cierre">
-  <div class="envoltorio">
-    <span class="sello sello-celeste" aria-hidden="true">Queda<br>una<br>carta</span>
-    <h2>¿Prefieres regalar tu tiempo?</h2>
-    <p>También necesitamos voluntarios para los talleres, los juegos y la entrega de diciembre.</p>
-    <a class="btn btn-crema" href="voluntarios.html">Ser voluntario</a>
+    <p class="cintillo-cita">Si ayudo a una sola <span class="suave">persona</span> a tener <span class="suave">esperanza,</span> no habré vivido en vano.</p>
+    <span class="cintillo-autor">— Martin Luther King</span>
   </div>
 </section>
 

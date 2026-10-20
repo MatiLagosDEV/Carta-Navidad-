@@ -416,6 +416,7 @@ button { font: inherit; }
 }
 
 .pagina-lista { padding-bottom: 96px; }
+.lista-bloque { padding-top: 72px; }
 
 .pagina-titulo {
   font-size: clamp(2rem, 5.4vw, 3.2rem);
@@ -469,6 +470,8 @@ button { font: inherit; }
   margin-top: 56px;
   counter-reset: paso;
 }
+
+.pasos-2 { grid-template-columns: repeat(2, 1fr); gap: 40px; }
 
 .paso { border-top: 2px solid var(--tinta); padding-top: 22px; counter-increment: paso; }
 
@@ -914,6 +917,22 @@ input::placeholder, textarea::placeholder { color: rgba(255, 247, 219, 0.45); }
   color: var(--celeste);
   margin: 0 0 24px;
 }
+
+/* Voluntarios: las dos fotos terminan a la altura del botón */
+.dos-columnas-voluntarios { align-items: stretch; }
+.fotos-alineadas { position: relative; top: auto; min-height: 380px; }
+.fotos-alineadas img { position: absolute; left: 0; width: 100%; height: calc(50% - 10px); object-fit: cover; }
+.fotos-alineadas img:first-child { top: 0; }
+.fotos-alineadas img:last-child { bottom: 0; }
+
+/* Inscríbete: formulario a la izquierda, texto a la derecha */
+.inscribete-enlace .btn { margin-top: 18px; }
+
+/* Frase desplazada a la columna derecha */
+.cintillo-derecha { align-items: start; }
+.cintillo-derecha .col-derecha { grid-column: 2; }
+.cintillo-derecha .cintillo-cita { margin: 0; max-width: none; font-size: clamp(1.9rem, 4vw, 3.1rem); }
+.cintillo-derecha .cintillo-autor { margin: 22px 0 0; max-width: none; font-size: 1.95rem; }
 
 .bloque-inscribete { margin-top: 88px; }
 .bloque-inscribete .pagina-titulo { margin-bottom: 10px; }
@@ -1420,9 +1439,12 @@ input[type="file"]::file-selector-button {
   .menu-movil { display: block; }
 
   .hero { grid-template-columns: 1fr; gap: 52px; padding: 48px 0 72px; }
-  .pasos { grid-template-columns: 1fr; gap: 26px; }
+  .pasos, .pasos-2 { grid-template-columns: 1fr; gap: 26px; }
   .dos-columnas, .sobre-grid { grid-template-columns: 1fr; gap: 34px; }
   .sobre-fotos { position: static; }
+  .fotos-alineadas { min-height: 0; }
+  .fotos-alineadas img { position: static; height: auto; aspect-ratio: 4 / 3; }
+  .cintillo-derecha .col-derecha { grid-column: auto; }
   .pie-cols { grid-template-columns: 1fr; gap: 28px; }
   .postales { grid-template-columns: 1fr; }
   .bloque-inscribete { margin-top: 64px; }
@@ -1438,6 +1460,7 @@ input[type="file"]::file-selector-button {
   .cierre { padding: 64px 0; }
   .cabecera-pagina { padding: 44px 0 28px; }
   .pagina-lista { padding-bottom: 64px; }
+  .lista-bloque { padding-top: 48px; }
 
   .hero { padding: 36px 0 56px; gap: 44px; }
   .hero-bajada { font-size: 1.05rem; }
@@ -1460,6 +1483,7 @@ input[type="file"]::file-selector-button {
 
   .papel-superficie, .form-panel, .login-box, .modal { padding: 24px 20px; }
   .cintillo-autor { font-size: 1.45rem; }
+  .cintillo-derecha .cintillo-autor { font-size: 1.6rem; }
   .cita cite { font-size: 1.7rem; }
   .postal p, .comentario-card blockquote { font-size: 1.12rem; }
   .comentario-card { width: 78vw; flex-basis: 78vw; }
