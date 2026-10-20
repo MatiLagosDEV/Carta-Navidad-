@@ -561,7 +561,8 @@ button { font: inherit; }
 .entregado, .estado-entregado { background: rgba(1, 46, 41, 0.09); color: var(--entregado); }
 
 /* ---------- Cita a pantalla completa ---------- */
-.cita, .cintillo-coral { background: var(--coral); color: #fff; padding: 96px 0; }
+.cintillo-coral { background: var(--coral); color: #fff; padding: 96px 0; }
+.cita { background: var(--crema); color: var(--tinta); padding: 96px 0; }
 
 .cita blockquote, .cintillo-cita {
   margin: 0 auto;
@@ -575,12 +576,25 @@ button { font: inherit; }
 
 .cita blockquote span, .cintillo-cita .suave { font-weight: 400; }
 
-.cita cite, .cintillo-autor {
+.cintillo-autor {
   display: block;
   max-width: 19ch;
   margin: 20px auto 0;
   font-family: var(--mano);
   font-size: 1.7rem;
+  font-style: normal;
+}
+
+/* Frase: alineada a la izquierda del contenido, igual que el título principal */
+.cita blockquote { margin: 0; text-align: left; }
+
+.cita cite {
+  display: block;
+  max-width: none;
+  margin: 22px 0 0;
+  text-align: left;
+  font-family: var(--mano);
+  font-size: 2.05rem;
   font-style: normal;
 }
 
@@ -1245,13 +1259,13 @@ input[type="file"]::file-selector-button {
 
 .nc-pista {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: var(--nc-gap);
   width: max-content;
-  animation: nc-mover 42s linear infinite;
+  animation: nc-mover 68s linear infinite;
 }
 
-.nc-grupo { display: flex; align-items: center; gap: var(--nc-gap); }
+.nc-grupo { display: flex; align-items: stretch; gap: var(--nc-gap); }
 
 @keyframes nc-mover {
   to { transform: translateX(calc(-50% - var(--nc-gap) / 2)); }
@@ -1262,6 +1276,8 @@ input[type="file"]::file-selector-button {
   flex: none;
   width: 240px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   padding: 8px 12px 6px;
   background: #fff;
   color: #111b21;
@@ -1279,19 +1295,28 @@ input[type="file"]::file-selector-button {
   border-left: 8px solid transparent;
 }
 
-.nc-burbuja p { margin: 0; }
+/* texto cortado limpio a 5 líneas como máximo, sin saltos a medias */
+.nc-burbuja p {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  overflow: hidden;
+  text-wrap: pretty;
+  overflow-wrap: break-word;
+}
 
 .nc-hora {
   display: block;
-  margin-top: 2px;
+  margin-top: auto;
+  padding-top: 2px;
+  min-height: 14px;
   text-align: right;
   font-size: 11px;
   line-height: 1.2;
   color: #667781;
 }
-
-.nc-burbuja:nth-child(4n+1) { margin-bottom: 14px; }
-.nc-burbuja:nth-child(2n) { margin-top: 18px; }
 
 .nc-reaccion {
   position: absolute;
@@ -1434,7 +1459,8 @@ input[type="file"]::file-selector-button {
   .tabs .tab { flex: 0 0 auto; }
 
   .papel-superficie, .form-panel, .login-box, .modal { padding: 24px 20px; }
-  .cita cite, .cintillo-autor { font-size: 1.45rem; }
+  .cintillo-autor { font-size: 1.45rem; }
+  .cita cite { font-size: 1.7rem; }
   .postal p, .comentario-card blockquote { font-size: 1.12rem; }
   .comentario-card { width: 78vw; flex-basis: 78vw; }
   .tira-grupo, .ticker-grupo { gap: 18px; padding-right: 18px; }

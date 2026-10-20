@@ -2,12 +2,19 @@
   var mensajes = [
     { texto: "Muchas gracias a ustedes por considerarnos y querer dar un momento de alegría a los chicos", hora: "20:03", corazon: true },
     { texto: "Felicitaciones para todos por esa sonrisa que le dan a todos esos niños", hora: "", corazon: true },
-    { texto: "Muchas Gracias..!! ✨👌 De verdad que se divirtieron demasiado los niños y niñas..😍 Gracias por su tremendo apoyo.. 🙏🏻", hora: "20:55", corazon: false },
-    { texto: "… fueron demasiado … apoyo..", hora: "", corazon: false },
-    { texto: "Hermosa actividad. Una variedad de actividades muy novedosas. Mi hija y sus compañeros la pasaron súper bien. Muchísimas gracias ❤️🙌", hora: "", corazon: false },
-    { texto: "Hola buenos días ... Quiero agradecer enormemente junto a mi esposo por lo bello que realizan ...", hora: "", corazon: false },
+    { texto: "Muchas gracias..!! ✨👌 De verdad que se divirtieron demasiado los niños y niñas 😍", hora: "20:55", corazon: false },
+    { texto: "Gracias por su tremendo apoyo 🙏🏻", hora: "", corazon: false },
+    { texto: "Hermosa actividad. Una variedad de actividades muy novedosas.", hora: "", corazon: false },
+    { texto: "Mi hija y sus compañeros la pasaron súper bien. Muchísimas gracias ❤️🙌", hora: "", corazon: false },
+    { texto: "Quiero agradecer enormemente, junto a mi esposo, lo bello que realizan.", hora: "", corazon: false },
     { texto: "Agradezco mucho su amabilidad y lo bello que realizan al hacerles realidad el sueño de cada niño y niña", hora: "", corazon: false },
-    { texto: "Gracias por su labor mo niño fue seleccionado del colegio que Dios le multiplique", hora: "", corazon: false }
+    { texto: "Gracias por su labor, mi niño fue seleccionado del colegio. Que Dios les multiplique", hora: "", corazon: false },
+    // EJEMPLOS: reemplazar por mensajes reales antes de publicar
+    { texto: "Mi hijo no paraba de sonreír cuando abrió su regalo. Gracias por tanto cariño 🎁", hora: "", corazon: true },
+    { texto: "Fue emocionante ver a tantos voluntarios juntos por los niños. Volveremos el próximo año 🎄", hora: "", corazon: false },
+    { texto: "Gracias por acordarse de los niños de nuestro jardín. Se llevaron un recuerdo inolvidable", hora: "", corazon: true },
+    { texto: "Cada carta era un sueño. Gracias por darnos la oportunidad de cumplir uno ❤️", hora: "", corazon: false },
+    { texto: "Una tarde llena de risas y juegos. Los niños se fueron felices 🎅", hora: "", corazon: false }
   ];
 
   var corazonSVG =
