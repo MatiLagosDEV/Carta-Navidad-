@@ -415,6 +415,41 @@ button { font: inherit; }
   font-size: 1.08rem;
 }
 
+.medios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.medio-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 28px;
+  border: 1px solid rgba(255, 247, 219, 0.16);
+  border-radius: var(--radio-papel);
+  background: rgba(255, 247, 219, 0.05);
+  overflow: hidden;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.medio-foto {
+  display: block;
+  width: calc(100% + 56px);
+  max-width: none;
+  margin: -28px -28px 8px;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center 35%;
+}
+
+.medio-card:hover { transform: translateY(-3px); border-color: rgba(255, 247, 219, 0.4); }
+.medio-card h3 { font-size: 1.5rem; margin: 0; }
+.medio-card p { margin: 0; line-height: 1.6; color: rgba(255, 247, 219, 0.78); }
+.medio-card .btn { margin-top: auto; }
+.medio-tipo { font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--celeste); }
+
 .pagina-lista { padding-bottom: 96px; }
 .lista-bloque { padding-top: 72px; }
 
