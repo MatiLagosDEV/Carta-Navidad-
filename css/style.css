@@ -760,6 +760,10 @@ button { font: inherit; }
 .controles input { flex: 1 1 220px; min-width: 0; }
 .controles select { flex: 0 1 220px; }
 .controles .btn { flex: 0 0 auto; }
+.controles select option {
+  background-color: var(--tinta-2);
+  color: var(--crema);
+}
 
 /* Campos: 16px evita que iOS haga zoom al enfocar */
 input, select, textarea {
