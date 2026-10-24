@@ -48,13 +48,22 @@ function headerHTML(cfg) {
 }
 
 function footerHTML(cfg) {
+  const textoAnterior = 'Por ahora, estamos hibernando como los elfos, pero pronto volveremos a armar la fiesta más linda del año. ¡Nos vemos en Noviembre!';
+  const legalAnterior = 'Corporación Corazón Solidario. Todos los derechos reservados.';
+  const textoFooter = cfg.texto_footer === textoAnterior
+    ? '¡Los elfos ya están trabajando! Estamos preparando una nueva Navidad llena de regalos, juegos y momentos inolvidables para los niños.'
+    : cfg.texto_footer;
+  const legal = cfg.legal === legalAnterior
+    ? 'Navidad con Corazón. Todos los derechos reservados.'
+    : cfg.legal;
+
   return `
   <footer class="pie">
     <div class="envoltorio">
       <div class="pie-cols">
         <div>
           <h4>${esc(cfg.nombre_campana)} ${esc(cfg.anio)}</h4>
-          <p>${esc(cfg.texto_footer)}</p>
+          <p>${esc(textoFooter)}</p>
         </div>
         <div>
           <h4>Colabora</h4>
@@ -70,9 +79,10 @@ function footerHTML(cfg) {
         </div>
       </div>
       <p class="pie-legal">
-        © ${esc(cfg.anio)} ${esc(cfg.legal)}
+        © ${esc(cfg.anio)} ${esc(legal)}
         <a class="pie-admin" href="login.html" rel="nofollow">Acceso equipo</a>
       </p>
+      <p class="pie-credit">Diseño y desarrollo web por Jonathan Friz</p>
     </div>
   </footer>`;
 }

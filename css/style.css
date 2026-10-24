@@ -742,6 +742,11 @@ button { font: inherit; }
 
 .pie-legal .pie-admin:hover { color: var(--celeste); }
 
+.pie-credit {
+  margin-top: 10px !important;
+  font-style: italic;
+}
+
 /* ---------- Lista de regalos ---------- */
 .resumen { display: flex; gap: 12px; margin-bottom: 22px; flex-wrap: wrap; }
 
@@ -969,9 +974,11 @@ input::placeholder, textarea::placeholder { color: rgba(255, 247, 219, 0.45); }
 
 /* Frase desplazada a la columna derecha */
 .cintillo-derecha { align-items: start; }
-.cintillo-derecha .col-derecha { grid-column: 2; }
+.cintillo-derecha .col-derecha { grid-column: 1; text-align: left; }
 .cintillo-derecha .cintillo-cita { margin: 0; max-width: none; font-size: clamp(1.9rem, 4vw, 3.1rem); }
 .cintillo-derecha .cintillo-autor { margin: 22px 0 0; max-width: none; font-size: 1.95rem; }
+.cintillo-izquierda .cintillo-cita,
+.cintillo-izquierda .cintillo-autor { margin-left: 0; margin-right: 0; text-align: left; }
 
 .bloque-inscribete { margin-top: 88px; }
 .bloque-inscribete .pagina-titulo { margin-bottom: 10px; }

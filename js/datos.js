@@ -13,9 +13,9 @@ const CONFIG_POR_DEFECTO = {
   tiktok: '#',
   linkedin: '#',
   linkedin_usuario: 'Navidad con Corazón',
-  texto_footer: 'Por ahora, estamos hibernando como los elfos, pero pronto volveremos a armar la fiesta más linda del año. ¡Nos vemos en Noviembre!',
+  texto_footer: '¡Los elfos ya están trabajando! Estamos preparando una nueva Navidad llena de regalos, juegos y momentos inolvidables para los niños.',
   aviso_home: '¡Ups! Aún estamos construyendo este sitio. ¡Regresa en Noviembre!',
-  legal: 'Corporación Corazón Solidario. Todos los derechos reservados.',
+  legal: 'Navidad con Corazón. Todos los derechos reservados.',
 
   // Apariencia editable desde el panel
   fotos_regalos: 'no',
