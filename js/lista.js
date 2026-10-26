@@ -43,25 +43,25 @@ function renderGrid(data) {
     grid.innerHTML = '<p>No hay regalos que coincidan con tu búsqueda.</p>';
     return;
   }
-  // Las fotos se muestran solo si el panel las tiene activadas.
-  const conFotos = window.CFG && window.CFG.fotos_regalos === 'si';
+  const regaloSVG = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef5151" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>';
 
-  grid.innerHTML = data.map(r => `
-    <div class="card">
-      ${conFotos && r.foto_url
-        ? `<img class="card-foto" src="${esc(r.foto_url)}" alt="Regalo para ${esc(r.nombre_nino)}" loading="lazy">`
-        : ''}
-      <span class="institucion">${esc(r.institucion)}</span>
-      <h3>${esc(r.nombre_nino)}</h3>
-      <div class="opciones">
-        <div><b>Opción 1:</b> ${esc(r.opcion1)}</div>
-        ${r.opcion2 ? `<div><b>Opción 2:</b> ${esc(r.opcion2)}</div>` : ''}
-      </div>
-      <span class="estado-badge estado-${r.estado}">${ETIQUETAS[r.estado] || r.estado}</span>
-      ${r.estado === 'disponible'
-        ? `<button class="btn btn-primario" data-reservar="${r.id}">Reservar este regalo</button>`
-        : `<button class="btn btn-primario" disabled>${r.estado === 'reservado' ? 'Ya reservado' : 'Ya entregado'}</button>`}
-    </div>`).join('');
+  grid.innerHTML = `
+    <div class="lr-tabla-wrap">
+      <table class="lr-tabla">
+        <thead><tr><th>Regalo</th><th>Niño o niña</th><th>Institución</th><th>Estado</th><th></th></tr></thead>
+        <tbody>
+          ${data.map(r => `
+            <tr>
+              <td data-label="Regalo"><div class="lr-regalo"><span class="lr-icono">${regaloSVG}</span><div><div class="lr-nombre">${esc(r.opcion1)}</div>${r.opcion2 ? `<div class="lr-detalle">Alternativa: ${esc(r.opcion2)}</div>` : ''}</div></div></td>
+              <td data-label="Niño o niña">${esc(r.nombre_nino)}</td>
+              <td data-label="Institución">${esc(r.institucion)}</td>
+              <td data-label="Estado"><span class="estado-badge estado-${r.estado}">${ETIQUETAS[r.estado] || r.estado}</span></td>
+              <td data-label="Acción"><button class="btn btn-coral btn-pequeno" data-reservar="${r.id}"${r.estado === 'disponible' ? '' : ' disabled'}>${r.estado === 'disponible' ? 'Cumplir deseo' : 'No disponible'}</button></td>
+            </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>`;
+  dibujarLucesLista();
 }
 
 function aplicarFiltros() {
@@ -153,3 +153,59 @@ $('btnConfirmarReserva').addEventListener('click', async () => {
 });
 
 document.addEventListener('layout-listo', cargarRegalos);
+
+function dibujarLucesLista() {
+  const wrap = $('lr-wrap');
+  const svg = $('lr-luces');
+  if (!wrap || !svg) return;
+  const NS = 'http://www.w3.org/2000/svg';
+  const colores = ['#ef4b4b', '#f6c84c', '#3fcf84', '#4db3f0'];
+  const W = wrap.clientWidth;
+  const H = wrap.clientHeight;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.innerHTML = '';
+  const crear = (tag, attrs) => {
+    const el = document.createElementNS(NS, tag);
+    Object.keys(attrs).forEach(k => el.setAttribute(k, attrs[k]));
+    svg.appendChild(el);
+    return el;
+  };
+  const margen = 12;
+  const radio = 20;
+  const x0 = margen, y0 = margen, x1 = W - margen, y1 = H - margen;
+  crear('rect', { x: x0, y: y0, width: x1 - x0, height: y1 - y0, rx: radio, fill: 'none', stroke: '#0b0f0e', 'stroke-width': 1.6 });
+  const segmentos = [
+    { len: x1 - x0 - radio * 2, en: t => [x0 + radio + t * (x1 - x0 - radio * 2), y0] },
+    { len: Math.PI * radio / 2, en: t => { const a = -Math.PI / 2 + t * Math.PI / 2; return [x1 - radio + radio * Math.cos(a), y0 + radio + radio * Math.sin(a)]; } },
+    { len: y1 - y0 - radio * 2, en: t => [x1, y0 + radio + t * (y1 - y0 - radio * 2)] },
+    { len: Math.PI * radio / 2, en: t => { const a = t * Math.PI / 2; return [x1 - radio + radio * Math.cos(a), y1 - radio + radio * Math.sin(a)]; } },
+    { len: x1 - x0 - radio * 2, en: t => [x1 - radio - t * (x1 - x0 - radio * 2), y1] },
+    { len: Math.PI * radio / 2, en: t => { const a = Math.PI / 2 + t * Math.PI / 2; return [x0 + radio + radio * Math.cos(a), y1 - radio + radio * Math.sin(a)]; } },
+    { len: y1 - y0 - radio * 2, en: t => [x0, y1 - radio - t * (y1 - y0 - radio * 2)] },
+    { len: Math.PI * radio / 2, en: t => { const a = Math.PI + t * Math.PI / 2; return [x0 + radio + radio * Math.cos(a), y0 + radio + radio * Math.sin(a)]; } },
+  ];
+  const total = segmentos.reduce((s, seg) => s + seg.len, 0);
+  const n = Math.max(12, Math.round(total / 30));
+  for (let i = 0; i < n; i++) {
+    let distancia = i * total / n;
+    let segmento = segmentos[0];
+    for (const actual of segmentos) {
+      if (distancia <= actual.len) { segmento = actual; break; }
+      distancia -= actual.len;
+    }
+    const [x, y] = segmento.en(distancia / segmento.len);
+    const color = colores[i % colores.length];
+    const delay = `${((i % 16) * 0.16).toFixed(2)}s`;
+    const duration = `${(1.05 + (i % 4) * 0.16).toFixed(2)}s`;
+    const estilo = `--lr-delay:${delay};--lr-duration:${duration}`;
+    crear('circle', { cx: x, cy: y, r: 10, fill: color, class: 'lr-halo', style: estilo });
+    crear('circle', { cx: x, cy: y, r: 4.6, fill: color, class: 'lr-foco', style: estilo });
+    crear('circle', { cx: x - 1.4, cy: y - 1.4, r: 1.3, fill: '#fff', opacity: '.85' });
+  }
+}
+
+if (window.ResizeObserver) {
+  new ResizeObserver(() => requestAnimationFrame(dibujarLucesLista)).observe($('lr-wrap'));
+} else {
+  window.addEventListener('resize', dibujarLucesLista);
+}
