@@ -117,6 +117,7 @@ function abrirForm(regalo) {
   $('formFoto').value = '';
   pintarFotoPrevia(fotoRegalo);
   $('formNombre').value = regalo ? regalo.nombre_nino : '';
+  $('formEdad').value = (regalo && regalo.edad) || '';
   $('formInstitucion').value = regalo ? regalo.institucion : '';
   $('formOpcion1').value = regalo ? regalo.opcion1 : '';
   $('formOpcion2').value = (regalo && regalo.opcion2) || '';
@@ -133,6 +134,7 @@ $('btnCancelarForm').addEventListener('click', () => $('overlayForm').classList.
 $('btnGuardarForm').addEventListener('click', async () => {
   const datos = {
     nombre_nino: $('formNombre').value.trim(),
+    edad: $('formEdad').value.trim() || null,
     institucion: $('formInstitucion').value.trim(),
     opcion1: $('formOpcion1').value.trim(),
     opcion2: $('formOpcion2').value.trim() || null,

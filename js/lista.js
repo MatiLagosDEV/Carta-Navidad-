@@ -48,13 +48,13 @@ function renderGrid(data) {
   grid.innerHTML = `
     <div class="lr-tabla-wrap">
       <table class="lr-tabla">
-        <thead><tr><th>Regalo</th><th>Niño o niña</th><th>Institución</th><th>Estado</th><th></th></tr></thead>
+        <thead><tr><th>Niño o niña</th><th>Edad</th><th>Regalo</th><th>Estado</th><th></th></tr></thead>
         <tbody>
           ${data.map(r => `
             <tr>
-              <td data-label="Regalo"><div class="lr-regalo"><span class="lr-icono">${regaloSVG}</span><div><div class="lr-nombre">${esc(r.opcion1)}</div>${r.opcion2 ? `<div class="lr-detalle">Alternativa: ${esc(r.opcion2)}</div>` : ''}</div></div></td>
               <td data-label="Niño o niña">${esc(r.nombre_nino)}</td>
-              <td data-label="Institución">${esc(r.institucion)}</td>
+              <td data-label="Edad">${r.edad ? `${esc(r.edad)} años` : '—'}</td>
+              <td data-label="Regalo"><div class="lr-regalo"><span class="lr-icono">${regaloSVG}</span><div><div class="lr-nombre">${esc(r.opcion1)}</div>${r.opcion2 ? `<div class="lr-detalle">Alternativa: ${esc(r.opcion2)}</div>` : ''}</div></div></td>
               <td data-label="Estado"><span class="estado-badge estado-${r.estado}">${ETIQUETAS[r.estado] || r.estado}</span></td>
               <td data-label="Acción"><button class="btn btn-coral btn-pequeno" data-reservar="${r.id}"${r.estado === 'disponible' ? '' : ' disabled'}>${r.estado === 'disponible' ? 'Cumplir deseo' : 'No disponible'}</button></td>
             </tr>`).join('')}

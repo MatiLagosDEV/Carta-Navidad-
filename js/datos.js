@@ -35,7 +35,7 @@ const IMAGEN_TIPOS = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
 
 // Columnas de `regalos` que puede ver cualquiera. Las del donante quedan
 // fuera a propósito; la lista blanca de verdad está en el GRANT del SQL.
-const COLUMNAS_PUBLICAS = 'id, nombre_nino, institucion, opcion1, opcion2, estado, foto_url, created_at';
+const COLUMNAS_PUBLICAS = 'id, nombre_nino, edad, opcion1, opcion2, estado, foto_url, created_at';
 const CACHE_CONFIG = 'ncc_cfg_v1';
 
 // Las fotos de un teléfono pesan 3-5 MB y en pantalla se ven a 400 px de
@@ -86,12 +86,12 @@ async function prepararImagen(file) {
 }
 
 const REGALOS_SEMILLA = [
-  ['Alma Heredia González', 'Colegio Olimpo', 'Lápices de plumón (100 colores)', null, 'Fran'],
-  ['Joaquín Hermosilla', 'Colegio Olimpo', 'Peluche de Pou triste', null, 'Fran'],
-  ['Amanda Inostroza', 'Jardines Chile', 'Pop it', 'Piscina de pelotas', 'Fran'],
-  ['Bastian Contreras Fernández', 'Jardines Chile', 'Juguete de Spiderman o Venom', 'Robot de juguete', 'Fran'],
-  ['Lucas Osses Gutiérrez', 'Colegio Olimpo', 'Un Godzilla y un King Kong', null, 'Javi'],
-  ['Trinidad Toro', 'Colegio Olimpo', 'Lápices acuarelables (100 colores)', null, 'Javi'],
+  ['Alma Heredia González', 'Colegio Olimpo', 7, 'Lápices de plumón (100 colores)', null, 'Fran'],
+  ['Joaquín Hermosilla', 'Colegio Olimpo', 8, 'Peluche de Pou triste', null, 'Fran'],
+  ['Amanda Inostroza', 'Jardines Chile', 6, 'Pop it', 'Piscina de pelotas', 'Fran'],
+  ['Bastian Contreras Fernández', 'Jardines Chile', 9, 'Juguete de Spiderman o Venom', 'Robot de juguete', 'Fran'],
+  ['Lucas Osses Gutiérrez', 'Colegio Olimpo', 5, 'Un Godzilla y un King Kong', null, 'Javi'],
+  ['Trinidad Toro', 'Colegio Olimpo', 10, 'Lápices acuarelables (100 colores)', null, 'Javi'],
 ];
 
 const COMENTARIOS_SEMILLA = [
@@ -131,11 +131,23 @@ function crearDatosDemo() {
 
   function leer() {
     const guardado = almacen.getItem(CLAVE);
-    if (guardado) return JSON.parse(guardado);
+    if (guardado) {
+      const datos = JSON.parse(guardado);
+      let actualizoEdades = false;
+      datos.regalos.forEach(regalo => {
+        const ejemplo = REGALOS_SEMILLA.find(item => item[0] === regalo.nombre_nino);
+        if (ejemplo && regalo.edad == null) {
+          regalo.edad = ejemplo[2];
+          actualizoEdades = true;
+        }
+      });
+      if (actualizoEdades) almacen.setItem(CLAVE, JSON.stringify(datos));
+      return datos;
+    }
     const inicial = {
       config: Object.assign({}, CONFIG_POR_DEFECTO),
-      regalos: REGALOS_SEMILLA.map(([nombre, inst, o1, o2, enc]) => ({
-        id: uuid(), nombre_nino: nombre, institucion: inst, opcion1: o1, opcion2: o2,
+      regalos: REGALOS_SEMILLA.map(([nombre, inst, edad, o1, o2, enc]) => ({
+        id: uuid(), nombre_nino: nombre, institucion: inst, edad, opcion1: o1, opcion2: o2,
         encargado: enc, estado: 'disponible', nombre_donador: null, contacto_donador: null,
         reservado_at: null, entregado_at: null, created_at: new Date().toISOString(),
       })),

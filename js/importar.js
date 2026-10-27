@@ -9,6 +9,7 @@
 // "REGALO OPCION 1" y "regalo opción 1" son la misma columna.
 const COLUMNAS = {
   nombre_nino:    ['nombre', 'nombre del nino', 'nino', 'nina', 'nombre nino'],
+  edad:           ['edad', 'edad del nino', 'anos', 'anios'],
   institucion:    ['institucion', 'colegio', 'jardin', 'establecimiento'],
   opcion1:        ['regalo opcion 1', 'opcion 1', 'regalo 1', 'regalo', 'opcion de regalo 1'],
   opcion2:        ['regalo opcion 2', 'opcion 2', 'regalo 2', 'opcion de regalo 2'],
@@ -106,6 +107,7 @@ function prepararImportacion(filas, existentes) {
     regalos.push({
       nombre_nino,
       institucion,
+      ...(mapa.edad ? { edad: dato('edad') || null } : {}),
       opcion1,
       opcion2: dato('opcion2') || null,
       estado,

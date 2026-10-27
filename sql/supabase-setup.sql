@@ -35,6 +35,7 @@ GRANT EXECUTE ON FUNCTION es_admin TO anon, authenticated;
 CREATE TABLE IF NOT EXISTS regalos (
   id                uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   nombre_nino       text NOT NULL,
+  edad              integer,
   institucion       text NOT NULL,
   opcion1           text NOT NULL,
   opcion2           text,
@@ -46,6 +47,8 @@ CREATE TABLE IF NOT EXISTS regalos (
   entregado_at      timestamptz,
   created_at        timestamptz DEFAULT now()
 );
+
+ALTER TABLE regalos ADD COLUMN IF NOT EXISTS edad integer;
 
 ALTER TABLE regalos ENABLE ROW LEVEL SECURITY;
 
@@ -71,7 +74,7 @@ ALTER TABLE regalos ADD COLUMN IF NOT EXISTS foto_url text;
 -- ?select=* y llevarse el nombre y el contacto de TODOS los donantes.
 -- El permiso por columna es lo único que lo corta de verdad.
 REVOKE SELECT ON regalos FROM anon;
-GRANT  SELECT (id, nombre_nino, institucion, opcion1, opcion2,
+GRANT  SELECT (id, nombre_nino, edad, institucion, opcion1, opcion2,
                estado, foto_url, created_at) ON regalos TO anon;
 
 -- ---------- 2. COMENTARIOS (slider de la portada) ----------

@@ -14,7 +14,7 @@ function montarCarta(regalos) {
   const pintar = () => {
     const r = regalos[actual];
     const deseo = r.opcion2 ? `${r.opcion1}, o si no ${r.opcion2}` : r.opcion1;
-    meta.textContent = r.nombre_nino;
+    meta.textContent = r.edad ? `${r.nombre_nino} · ${r.edad} años` : r.nombre_nino;
     texto.textContent = `Querido Santa: este año me porté bien. Quiero ${deseo.toLowerCase()}. Gracias.`;
     firma.textContent = r.nombre_nino.split(' ')[0];
   };

@@ -1060,6 +1060,7 @@ input::placeholder, textarea::placeholder { color: rgba(255, 247, 219, 0.45); }
 
 /* Inscríbete: formulario a la izquierda, texto a la derecha */
 .inscribete-enlace .btn { margin-top: 18px; }
+.inscripciones-derecha { grid-column: 2; }
 
 /* Frase desplazada a la columna derecha */
 .cintillo-derecha { align-items: start; }
@@ -1576,6 +1577,7 @@ input[type="file"]::file-selector-button {
   .hero { grid-template-columns: 1fr; gap: 52px; padding: 48px 0 72px; }
   .pasos, .pasos-2 { grid-template-columns: 1fr; gap: 26px; }
   .dos-columnas, .sobre-grid { grid-template-columns: 1fr; gap: 34px; }
+  .inscripciones-derecha { grid-column: auto; }
   .sobre-fotos { position: static; }
   .fotos-alineadas { min-height: 0; }
   .fotos-alineadas img { position: static; height: auto; aspect-ratio: 4 / 3; }
@@ -1590,30 +1592,18 @@ input[type="file"]::file-selector-button {
 
   .envoltorio, .pagina-ancho { width: min(1200px, 100% - 32px); }
   .lr-wrap { padding: 20px; }
-  .lr-marco { padding: 34px 14px 14px; }
-  .lr-tabla { min-width: 0; }
-  .lr-tabla thead { display: none; }
-  .lr-tabla, .lr-tabla tbody, .lr-tabla tr, .lr-tabla td { display: block; width: 100%; }
-  .lr-tabla tr {
-    margin-bottom: 12px;
-    padding: 8px 4px;
-    background: #fff;
-    border-radius: 14px;
-    box-shadow: 0 0 0 1px rgba(1, 46, 41, .08);
-  }
-  .lr-tabla td { padding: 8px 12px; border: 0; }
-  .lr-tabla td[data-label]::before {
-    content: attr(data-label);
-    display: block;
-    margin-bottom: 2px;
-    font-family: var(--display);
-    font-size: .62rem;
-    font-weight: 600;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--grafito);
-  }
-  .lr-tabla .btn { width: 100%; }
+  .lr-marco { padding: 34px 8px 10px; }
+  .lr-tabla { min-width: 560px; table-layout: fixed; font-size: .78rem; }
+  .lr-tabla th, .lr-tabla td { padding: 10px 6px; }
+  .lr-tabla th:nth-child(1), .lr-tabla td:nth-child(1) { width: 24%; }
+  .lr-tabla th:nth-child(2), .lr-tabla td:nth-child(2) { width: 11%; }
+  .lr-tabla th:nth-child(3), .lr-tabla td:nth-child(3) { width: 34%; }
+  .lr-tabla th:nth-child(4), .lr-tabla td:nth-child(4) { width: 15%; }
+  .lr-tabla th:nth-child(5), .lr-tabla td:nth-child(5) { width: 16%; }
+  .lr-tabla .lr-regalo { gap: 5px; }
+  .lr-tabla .lr-icono { display: none; }
+  .lr-tabla .estado-badge { padding: 4px 5px; font-size: .56rem; letter-spacing: .04em; }
+  .lr-tabla .btn { padding: 8px 4px; font-size: .62rem; }
 
   .seccion { padding: 56px 0; }
   .cita, .cintillo-coral { padding: 56px 0; }
