@@ -1052,6 +1052,7 @@ input::placeholder, textarea::placeholder { color: rgba(255, 247, 219, 0.45); }
   margin: 0 0 20px;
   color: rgba(255, 247, 219, 0.82);
 }
+.contenido-largo p.etiqueta { color: var(--celeste); }
 
 .contenido-largo b, .sobre-texto b { color: var(--crema); font-weight: 600; }
 .contenido-largo .destacado, .sobre-texto .destacado { color: var(--celeste); }
