@@ -6,6 +6,11 @@ function esc(str) {
   return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
+function enlaceRed(valor, predeterminado) {
+  const url = String(valor || '').trim();
+  return /^https?:\/\//i.test(url) ? url : predeterminado;
+}
+
 // Un solo listado de enlaces para el nav de escritorio y el menú móvil.
 const ENLACES = [
   ['sobre-nosotros.html', 'Sobre nosotros'],
@@ -56,6 +61,9 @@ function footerHTML(cfg) {
   const legal = cfg.legal === legalAnterior
     ? 'Navidad con Corazón. Todos los derechos reservados.'
     : cfg.legal;
+  const instagram = enlaceRed(cfg.instagram, 'https://instagram.com/navidadconcorazon');
+  const tiktok = enlaceRed(cfg.tiktok, 'https://www.tiktok.com/@navidad.con.coraz');
+  const linkedin = enlaceRed(cfg.linkedin, 'https://www.linkedin.com/company/navidadconcorazon/');
 
   return `
   <footer class="pie">
@@ -73,9 +81,9 @@ function footerHTML(cfg) {
         </div>
         <div>
           <h4>Redes</h4>
-          <a href="${esc(cfg.instagram)}" target="_blank" rel="noopener">Instagram</a>
-          <a href="${esc(cfg.tiktok)}" target="_blank" rel="noopener">TikTok</a>
-          <a href="${esc(cfg.linkedin)}" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="${esc(instagram)}" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="${esc(tiktok)}" target="_blank" rel="noopener noreferrer">TikTok</a>
+          <a href="${esc(linkedin)}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         </div>
       </div>
       <p class="pie-legal">
