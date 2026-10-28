@@ -1,5 +1,8 @@
 let TODOS_LOS_REGALOS = [];
 let regaloSeleccionado = null;
+let paginaActual = 1;
+
+const REGALOS_POR_PAGINA = 10;
 
 const $ = (id) => document.getElementById(id);
 const ETIQUETAS = { disponible: 'Disponible', reservado: 'Reservado', entregado: 'Entregado' };
@@ -43,6 +46,10 @@ function renderGrid(data) {
     grid.innerHTML = '<p>No hay regalos que coincidan con tu búsqueda.</p>';
     return;
   }
+  const totalPaginas = Math.ceil(data.length / REGALOS_POR_PAGINA);
+  paginaActual = Math.min(paginaActual, totalPaginas);
+  const inicio = (paginaActual - 1) * REGALOS_POR_PAGINA;
+  const regalosPagina = data.slice(inicio, inicio + REGALOS_POR_PAGINA);
   const regaloSVG = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef5151" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>';
 
   grid.innerHTML = `
@@ -50,21 +57,31 @@ function renderGrid(data) {
       <table class="lr-tabla">
         <thead><tr><th>Niño o niña</th><th>Edad</th><th>Regalo</th><th>Estado</th><th></th></tr></thead>
         <tbody>
-          ${data.map(r => `
+          ${regalosPagina.map(r => `
             <tr>
               <td data-label="Niño o niña">${esc(r.nombre_nino)}</td>
-              <td data-label="Edad">${r.edad ? `${esc(r.edad)} años` : '—'}</td>
-              <td data-label="Regalo"><div class="lr-regalo"><span class="lr-icono">${regaloSVG}</span><div><div class="lr-nombre">${esc(r.opcion1)}</div>${r.opcion2 ? `<div class="lr-detalle">Alternativa: ${esc(r.opcion2)}</div>` : ''}</div></div></td>
+              <td data-label="Edad">${r.edad ? esc(r.edad) : '—'}</td>
+              <td data-label="Regalo"><div class="lr-regalo"><span class="lr-icono">${regaloSVG}</span><div><div class="lr-nombre">${esc(r.opcion1)}</div>${r.opcion2 ? `<div class="lr-detalle">Opción 2: ${esc(r.opcion2)}</div>` : ''}</div></div></td>
               <td data-label="Estado"><span class="estado-badge estado-${r.estado}">${ETIQUETAS[r.estado] || r.estado}</span></td>
               <td data-label="Acción"><button class="btn btn-coral btn-pequeno" data-reservar="${r.id}"${r.estado === 'disponible' ? '' : ' disabled'}>${r.estado === 'disponible' ? 'Cumplir deseo' : 'No disponible'}</button></td>
             </tr>`).join('')}
         </tbody>
       </table>
-    </div>`;
+    </div>
+    <nav class="paginacion" aria-label="Paginación de la lista de regalos">
+      <button class="btn btn-secundario btn-paginacion" data-pagina="${paginaActual - 1}"${paginaActual === 1 ? ' disabled' : ''}>Atrás</button>
+      <span class="paginacion-info">Página ${paginaActual} de ${totalPaginas}</span>
+      <button class="btn btn-secundario btn-paginacion" data-pagina="${paginaActual + 1}"${paginaActual === totalPaginas ? ' disabled' : ''}>Siguiente</button>
+    </nav>`;
   dibujarLucesLista();
 }
 
 function aplicarFiltros() {
+  paginaActual = 1;
+  aplicarFiltrosSinReiniciarPagina();
+}
+
+function aplicarFiltrosSinReiniciarPagina() {
   const texto = $('buscador').value.trim().toLowerCase();
   const institucion = $('filtroInstitucion').value;
   const estado = $('filtroEstado').value;
@@ -87,7 +104,15 @@ function aplicarFiltros() {
 
 // --- Modal de reserva ---
 $('grid').addEventListener('click', (e) => {
-  const id = e.target.dataset && e.target.dataset.reservar;
+  const botonPagina = e.target.closest('[data-pagina]');
+  if (botonPagina) {
+    paginaActual = Number(botonPagina.dataset.pagina);
+    aplicarFiltrosSinReiniciarPagina();
+    return;
+  }
+
+  const botonReserva = e.target.closest('[data-reservar]');
+  const id = botonReserva && botonReserva.dataset.reservar;
   if (id) abrirModalReserva(id);
 });
 

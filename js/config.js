@@ -10,7 +10,7 @@
 const SUPABASE_URL = 'https://TU-PROYECTO.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlxem15aHV0YXlhdnlsZXh6bXVpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY4MTU3NDksImV4cCI6MjEwMjM5MTc0OX0.5fIoB3K8AD4E6b2i0vaP89mSmV6bL-IxmuJKDHlNtWs';
 
-const GOOGLE_SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbyWjzS3euH_Bq3uFKnHgOX_qNQ82q0DLG7caX-y_nX240u_LAYU7KSzvCbDkzENli8/exec';
+const GOOGLE_SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbx9OD1Tf_DwOBCPHNdisKN7pTq88p0QIe3omctjuVrRZIZPeKjcZ7lv7w06xowgz0vjHQ/exec';
 const MODO_HOJA = true;
 // false: usa Supabase; true: guarda los datos solo en este navegador.
 const MODO_DEMO = false;

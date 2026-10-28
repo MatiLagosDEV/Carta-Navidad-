@@ -10,18 +10,23 @@ function montarCarta(regalos) {
   const firma = document.getElementById('cartaFirma');
   if (!regalos.length) return;
 
-  let actual = 0;
+  let actual = Math.floor(Math.random() * regalos.length);
   const pintar = () => {
     const r = regalos[actual];
     const deseo = r.opcion2 ? `${r.opcion1}, o si no ${r.opcion2}` : r.opcion1;
-    meta.textContent = r.edad ? `${r.nombre_nino} · ${r.edad} años` : r.nombre_nino;
     texto.textContent = `Querido Santa: este año me porté bien. Quiero ${deseo.toLowerCase()}. Gracias.`;
     firma.textContent = r.nombre_nino.split(' ')[0];
   };
-
+  pintar();
   pintar();
   setInterval(() => {
-    actual = (actual + 1) % regalos.length;
+    if (regalos.length > 1) {
+      let siguiente;
+      do {
+        siguiente = Math.floor(Math.random() * regalos.length);
+      } while (siguiente === actual);
+      actual = siguiente;
+    }
     texto.classList.add('cambiando');
     setTimeout(() => { pintar(); texto.classList.remove('cambiando'); }, 200);
   }, 5000);

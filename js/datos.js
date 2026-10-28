@@ -384,6 +384,7 @@ function crearDatosHoja() {
       const datos = await pedir({ method: 'GET' });
       return datos.regalos || [];
     },
+    async comentarios() { return []; },
     async reservar(id, donador, contacto) {
       const cuerpo = new URLSearchParams({
         payload: JSON.stringify({ accion: 'reservar', id, nombre: donador, contacto }),

@@ -82,7 +82,7 @@ function footerHTML(cfg) {
         © ${esc(cfg.anio)} ${esc(legal)}
         <a class="pie-admin" href="login.html" rel="nofollow">Acceso equipo</a>
       </p>
-      <p class="pie-credit">Diseño y desarrollo web por Jonathan Friz</p>
+      <p class="pie-credit">Diseño y desarrollo web por Jonathan Friz y Matías Lagos</p>
     </div>
   </footer>`;
 }
