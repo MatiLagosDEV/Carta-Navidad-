@@ -407,6 +407,91 @@ $('formConfig').addEventListener('submit', async (e) => {
   }
 });
 
+// --- Medios ---
+let MEDIOS = [];
+
+function medioVacio() {
+  return { tipo: '', anio: '', titulo: '', descripcion: '', imagen: '', alt: '', url: '', boton: 'Ver nota' };
+}
+
+function renderMedios() {
+  $('listaMedios').innerHTML = MEDIOS.map((medio, indice) => `
+    <article class="medio-editor" data-medio="${indice}">
+      <div class="medio-editor-cabecera">
+        <h3>${esc(medio.titulo || 'Nuevo medio')}</h3>
+        <button type="button" class="btn btn-peligro btn-pequeno" data-borrar-medio="${indice}">Eliminar medio</button>
+      </div>
+      <div class="medio-editor-grid">
+        <label>Tipo<input data-medio-campo="tipo" value="${esc(medio.tipo)}"></label>
+        <label>Año<input data-medio-campo="anio" value="${esc(medio.anio)}"></label>
+        <label>Título<input data-medio-campo="titulo" value="${esc(medio.titulo)}"></label>
+        <label>Texto del botón<input data-medio-campo="boton" value="${esc(medio.boton)}"></label>
+        <label class="medio-editor-ancho">Descripción<textarea data-medio-campo="descripcion">${esc(medio.descripcion)}</textarea></label>
+        <label class="medio-editor-ancho">Enlace<input type="url" data-medio-campo="url" value="${esc(medio.url)}"></label>
+        <label class="medio-editor-ancho">Texto alternativo<input data-medio-campo="alt" value="${esc(medio.alt)}"></label>
+        <div class="medio-editor-imagen medio-editor-ancho">
+          <label>Imagen</label>
+          <img src="${esc(medio.imagen)}" alt="">
+          <input type="hidden" data-medio-campo="imagen" value="${esc(medio.imagen)}">
+          <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" data-medio-archivo>
+        </div>
+      </div>
+      <button type="button" class="btn btn-primario btn-pequeno" data-guardar-medio="${indice}">Guardar medio</button>
+    </article>`).join('');
+}
+
+async function cargarMedios() {
+  MEDIOS = await Datos.medios();
+  renderMedios();
+}
+
+$('listaMedios').addEventListener('change', async (e) => {
+  if (!e.target.matches('[data-medio-archivo]') || !e.target.files[0]) return;
+  const editor = e.target.closest('[data-medio]');
+  const indice = Number(editor.dataset.medio);
+  try {
+    const url = await Datos.subirImagen(e.target.files[0]);
+    MEDIOS[indice].imagen = url;
+    editor.querySelector('[data-medio-campo="imagen"]').value = url;
+    editor.querySelector('img').src = url;
+    aviso('Imagen subida. Recuerda guardar el medio.');
+  } catch (err) {
+    aviso(err.message || 'No se pudo subir la imagen.', 'error');
+  } finally {
+    e.target.value = '';
+  }
+});
+
+$('listaMedios').addEventListener('click', async (e) => {
+  const borrar = e.target.dataset.borrarMedio;
+  if (borrar !== undefined) {
+    const medio = MEDIOS[Number(borrar)];
+    if (!confirm(`¿Eliminar "${medio.titulo || 'este medio'}"?`)) return;
+    MEDIOS.splice(Number(borrar), 1);
+    await Datos.guardarMedios(MEDIOS);
+    renderMedios();
+    aviso('Medio eliminado.');
+    return;
+  }
+  const guardar = e.target.dataset.guardarMedio;
+  if (guardar === undefined) return;
+  const editor = e.target.closest('[data-medio]');
+  const medio = {};
+  editor.querySelectorAll('[data-medio-campo]').forEach(campo => {
+    medio[campo.dataset.medioCampo] = campo.value.trim();
+  });
+  MEDIOS[Number(guardar)] = medio;
+  await Datos.guardarMedios(MEDIOS);
+  renderMedios();
+  aviso('Medio guardado. Recarga la página Medios para verlo.');
+});
+
+$('btnNuevoMedio').addEventListener('click', () => {
+  MEDIOS.push(medioVacio());
+  renderMedios();
+  document.querySelector('#panel-medios .medio-editor:last-child').scrollIntoView({ behavior: 'smooth' });
+});
+
 // --- Mensajes de contacto ---
 async function cargarMensajes() {
   const lista = await Datos.mensajes();
@@ -436,5 +521,6 @@ document.addEventListener('layout-listo', async () => {
   cargarRegalos();
   cargarComentarios();
   cargarConfig();
+  cargarMedios();
   cargarMensajes();
 });

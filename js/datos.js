@@ -4,14 +4,23 @@
 //  Ambas implementaciones exponen exactamente los mismos métodos.
 // =====================================================================
 
+const MEDIOS_POR_DEFECTO = [
+  { tipo: 'Televisión', anio: '', titulo: 'TVN', descripcion: 'Navidad con Corazón es el voluntariado que entregó 100 regalos a niños.', imagen: 'img/medios-tvn-2.jpg', alt: 'Equipo de voluntarios de Navidad con Corazón saludando a la cámara', url: 'https://www.24horas.cl/regiones/zona-centro/biobio/navidad-con-corazon-es-el-voluntariado-que-entrego-100-regalos-a-ninos', boton: 'Ver nota' },
+  { tipo: 'Prensa', anio: '2025', titulo: 'Diario Concepción', descripcion: 'Navidad solidaria en Biobío: llaman a colaborar en diversas acciones benéficas previo a festividad.', imagen: 'img/medios-diario-concepcion.jpg', alt: 'Santa Claus abrazando a un niño en la entrega de regalos', url: 'https://www.diarioconcepcion.cl/ciudad/2025/12/08/navidad-solidaria-en-biobio-llaman-a-colaborar-en-diversas-acciones-beneficas-previo-a-festividad.html', boton: 'Ver nota' },
+  { tipo: 'Televisión', anio: '', titulo: 'Matinal Canal 9', descripcion: 'Integrantes de Navidad con Corazón fueron invitadas al matinal «Nuestra Casa» de Canal 9 para contar de qué trata el voluntariado.', imagen: 'img/medios-matinal-canal9.jpg', alt: 'Voluntarias de Navidad con Corazón en el matinal Nuestra Casa de Canal 9', url: 'https://youtu.be/OzrOEAvGf-U', boton: 'Ver video' },
+  { tipo: 'Radio', anio: '2024', titulo: 'Radio El Conquistador 2024', descripcion: 'Integrantes de Navidad con Corazón conversaron sobre la campaña navideña y el trabajo voluntario para cumplir los deseos de niños.', imagen: 'img/medios-radio-2024.jpg', alt: 'Voluntarias de Navidad con Corazón en Radio El Conquistador, 2024', url: 'https://drive.google.com/file/d/1JIJVbBJ9doVj704zaa0rvVoykOMBFYKT/view?usp=drivesdk', boton: 'Escuchar' },
+  { tipo: 'Prensa', anio: '2024', titulo: 'Hora 12', descripcion: 'Los jóvenes de Navidad con Corazón, por quinto año consecutivo, nuevamente harán felices a 100 niños en Concepción.', imagen: 'img/medios-hora12.jpg', alt: 'Niños y voluntarios jugando en la jornada de Navidad con Corazón', url: 'https://hora12.cl/2024/12/12/los-jovenes-de-navidad-con-corazon-por-quinto-ano-consecutivo-nuevamente-haran-felices-a-100-ninos-en-concepcion/', boton: 'Ver nota' },
+  { tipo: 'Radio', anio: '2025', titulo: 'Radio El Conquistador 2025', descripcion: 'Navidad con Corazón presentó su nueva campaña e invitó a la comunidad a sumarse como voluntaria y hacer realidad los deseos de niños.', imagen: 'img/medios-radio-2025.jpg', alt: 'Voluntarios de Navidad con Corazón en Radio El Conquistador, 2025', url: 'https://drive.google.com/file/d/1_68T922_uJya_-oqT9ajRCID60B06fKh/view?usp=drive_link', boton: 'Escuchar' },
+];
+
 const CONFIG_POR_DEFECTO = {
   nombre_campana: 'Navidad con Corazón',
   anio: '2026',
   email_contacto: 'navidadconcorazon@gmail.com',
   instagram: 'https://instagram.com/navidadconcorazon',
   instagram_usuario: 'navidadconcorazon',
-  tiktok: '#',
-  linkedin: '#',
+  tiktok: 'https://www.tiktok.com/@navidad.con.coraz',
+  linkedin: 'https://www.linkedin.com/company/navidadconcorazon/',
   linkedin_usuario: 'Navidad con Corazón',
   texto_footer: '¡Los elfos ya están trabajando! Estamos preparando una nueva Navidad llena de regalos, juegos y momentos inolvidables para los niños.',
   aviso_home: '¡Ups! Aún estamos construyendo este sitio. ¡Regresa en Noviembre!',
@@ -26,6 +35,7 @@ const CONFIG_POR_DEFECTO = {
   foto_sobre_2: 'https://framerusercontent.com/images/bH45L3qlZ8wn8kb2BhdeoESz9Sg.jpg?scale-down-to=1024',
   foto_voluntarios_1: 'https://framerusercontent.com/images/X68KA1rl3ypROVGLocg9kbhyLY.jpg?scale-down-to=1024',
   foto_voluntarios_2: 'https://framerusercontent.com/images/7IDzjlNviUsuxy0H1vhrnIpGUw.jpg?scale-down-to=1024',
+  medios: JSON.stringify(MEDIOS_POR_DEFECTO),
 };
 
 // Límites de las imágenes que se suben. Los repite el bucket de Supabase:
@@ -133,6 +143,10 @@ function crearDatosDemo() {
     const guardado = almacen.getItem(CLAVE);
     if (guardado) {
       const datos = JSON.parse(guardado);
+      if (!datos.config.medios) {
+        datos.config.medios = JSON.stringify(MEDIOS_POR_DEFECTO);
+        almacen.setItem(CLAVE, JSON.stringify(datos));
+      }
       let actualizoEdades = false;
       datos.regalos.forEach(regalo => {
         const ejemplo = REGALOS_SEMILLA.find(item => item[0] === regalo.nombre_nino);
@@ -165,6 +179,14 @@ function crearDatosDemo() {
     modo: 'demo',
 
     async config() { return leer().config; },
+    async medios() {
+      try { return JSON.parse(leer().config.medios || '[]'); } catch (e) { return []; }
+    },
+    async guardarMedios(lista) {
+      const d = leer();
+      d.config.medios = JSON.stringify(lista);
+      guardar(d);
+    },
     async guardarConfig(campos) {
       const d = leer();
       Object.assign(d.config, campos);
@@ -297,6 +319,15 @@ function crearDatosSupabase() {
       try { sessionStorage.setItem(CACHE_CONFIG, JSON.stringify(cfg)); } catch (e) { /* cuota llena */ }
       return cfg;
     },
+    async medios() {
+      const cfg = await this.config();
+      try { return JSON.parse(cfg.medios || '[]'); } catch (e) { return []; }
+    },
+    async guardarMedios(lista) {
+      const filas = [{ clave: 'medios', valor: JSON.stringify(lista) }];
+      ok(await sb.from('configuracion').upsert(filas, { onConflict: 'clave' }));
+      try { sessionStorage.removeItem(CACHE_CONFIG); } catch (e) { /* nada que limpiar */ }
+    },
     async guardarConfig(campos) {
       const filas = Object.keys(campos).map(clave => ({ clave, valor: campos[clave] }));
       ok(await sb.from('configuracion').upsert(filas, { onConflict: 'clave' }));
@@ -369,6 +400,8 @@ function crearDatosSupabase() {
 }
 
 function crearDatosHoja() {
+  const funcionesDemo = crearDatosDemo();
+
   async function pedir(opciones) {
     const respuesta = await fetch(GOOGLE_SHEETS_API_URL, opciones);
     if (!respuesta.ok) throw new Error(`Google Sheets respondió HTTP ${respuesta.status}.`);
@@ -378,8 +411,8 @@ function crearDatosHoja() {
   }
 
   return {
+    ...funcionesDemo,
     modo: 'hoja',
-    async config() { return Object.assign({}, CONFIG_POR_DEFECTO); },
     async regalos() {
       const datos = await pedir({ method: 'GET' });
       return datos.regalos || [];
