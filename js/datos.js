@@ -400,7 +400,8 @@ function crearDatosSupabase() {
 }
 
 function crearDatosHoja() {
-  const funcionesDemo = crearDatosDemo();
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+  const ok = (res) => { if (res.error) throw new Error(res.error.message); return res; };
 
   async function pedir(opciones) {
     const respuesta = await fetch(GOOGLE_SHEETS_API_URL, opciones);
@@ -411,13 +412,81 @@ function crearDatosHoja() {
   }
 
   return {
-    ...funcionesDemo,
     modo: 'hoja',
+    async config() {
+      try {
+        const guardada = sessionStorage.getItem(CACHE_CONFIG);
+        if (guardada) return JSON.parse(guardada);
+      } catch (e) { /* se consulta directamente */ }
+      const { data } = ok(await sb.from('configuracion').select('clave, valor'));
+      const cfg = Object.assign({}, CONFIG_POR_DEFECTO);
+      (data || []).forEach(fila => { cfg[fila.clave] = fila.valor; });
+      try { sessionStorage.setItem(CACHE_CONFIG, JSON.stringify(cfg)); } catch (e) { /* nada */ }
+      return cfg;
+    },
+    async guardarConfig(campos) {
+      const filas = Object.keys(campos).map(clave => ({ clave, valor: campos[clave] }));
+      ok(await sb.from('configuracion').upsert(filas, { onConflict: 'clave' }));
+      try { sessionStorage.removeItem(CACHE_CONFIG); } catch (e) { /* nada */ }
+    },
+    async medios() {
+      const cfg = await this.config();
+      try { return JSON.parse(cfg.medios || '[]'); } catch (e) { return []; }
+    },
+    async guardarMedios(lista) {
+      ok(await sb.from('configuracion').upsert([
+        { clave: 'medios', valor: JSON.stringify(lista) },
+      ], { onConflict: 'clave' }));
+      try { sessionStorage.removeItem(CACHE_CONFIG); } catch (e) { /* nada */ }
+    },
     async regalos() {
       const datos = await pedir({ method: 'GET' });
       return datos.regalos || [];
     },
-    async comentarios() { return []; },
+    async comentarios() {
+      const { data } = ok(await sb.from('comentarios').select('*').order('created_at', { ascending: true }));
+      return data || [];
+    },
+    async crearComentario(texto, autor) {
+      ok(await sb.from('comentarios').insert({ texto, autor }));
+    },
+    async borrarComentario(id) {
+      ok(await sb.from('comentarios').delete().eq('id', id));
+    },
+    async mensajes() {
+      const { data } = ok(await sb.from('mensajes').select('*').order('created_at', { ascending: false }));
+      return data || [];
+    },
+    async borrarMensaje(id) {
+      ok(await sb.from('mensajes').delete().eq('id', id));
+    },
+    async subirImagen(file) {
+      const imagen = await prepararImagen(file);
+      const extension = (imagen.type.split('/')[1] || 'jpg').replace('jpeg', 'jpg');
+      const nombre = `medios/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${extension}`;
+      ok(await sb.storage.from('imagenes').upload(nombre, imagen, {
+        cacheControl: '31536000',
+        upsert: false,
+      }));
+      return sb.storage.from('imagenes').getPublicUrl(nombre).data.publicUrl;
+    },
+    async borrarImagen(url) {
+      const prefijo = `${SUPABASE_URL}/storage/v1/object/public/imagenes/`;
+      if (!url || !url.startsWith(prefijo)) return;
+      const ruta = decodeURIComponent(url.slice(prefijo.length));
+      ok(await sb.storage.from('imagenes').remove([ruta]));
+    },
+    async haySesion() {
+      const { data } = await sb.auth.getSession();
+      return !!data.session;
+    },
+    async login(email, password) {
+      const { error } = await sb.auth.signInWithPassword({ email, password });
+      return error ? { ok: false, error: 'Email o contraseña incorrectos.' } : { ok: true };
+    },
+    async logout() {
+      await sb.auth.signOut();
+    },
     async reservar(id, donador, contacto) {
       const cuerpo = new URLSearchParams({
         payload: JSON.stringify({ accion: 'reservar', id, nombre: donador, contacto }),

@@ -469,6 +469,9 @@ $('listaMedios').addEventListener('click', async (e) => {
     if (!confirm(`¿Eliminar "${medio.titulo || 'este medio'}"?`)) return;
     MEDIOS.splice(Number(borrar), 1);
     await Datos.guardarMedios(MEDIOS);
+    if (medio.imagen && typeof Datos.borrarImagen === 'function') {
+      await Datos.borrarImagen(medio.imagen);
+    }
     renderMedios();
     aviso('Medio eliminado.');
     return;
