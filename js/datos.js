@@ -368,7 +368,41 @@ function crearDatosSupabase() {
   };
 }
 
-const Datos = MODO_DEMO ? crearDatosDemo() : crearDatosSupabase();
+function crearDatosHoja() {
+  async function pedir(opciones) {
+    const respuesta = await fetch(GOOGLE_SHEETS_API_URL, opciones);
+    if (!respuesta.ok) throw new Error(`Google Sheets respondió HTTP ${respuesta.status}.`);
+    const datos = await respuesta.json();
+    if (!datos.ok) throw new Error(datos.error || 'Google Sheets rechazó la solicitud.');
+    return datos;
+  }
+
+  return {
+    modo: 'hoja',
+    async config() { return Object.assign({}, CONFIG_POR_DEFECTO); },
+    async regalos() {
+      const datos = await pedir({ method: 'GET' });
+      return datos.regalos || [];
+    },
+    async reservar(id, donador, contacto) {
+      const cuerpo = new URLSearchParams({
+        payload: JSON.stringify({ accion: 'reservar', id, nombre: donador, contacto }),
+      });
+      const datos = await pedir({
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        body: cuerpo,
+      });
+      return datos.motivo === 'ya_reservado'
+        ? { ok: false, motivo: 'ya_reservado' }
+        : { ok: true };
+    },
+  };
+}
+
+const Datos = MODO_HOJA
+  ? crearDatosHoja()
+  : (MODO_DEMO ? crearDatosDemo() : crearDatosSupabase());
 
 if (MODO_DEMO) {
   console.info('MODO DEMO activo. Edita js/config.js con las credenciales de Supabase para usar la base de datos real.');

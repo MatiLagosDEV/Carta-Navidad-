@@ -92,7 +92,7 @@ $('grid').addEventListener('click', (e) => {
 });
 
 function abrirModalReserva(id) {
-  regaloSeleccionado = TODOS_LOS_REGALOS.find(r => r.id === id);
+  regaloSeleccionado = TODOS_LOS_REGALOS.find(r => String(r.id) === String(id));
   if (!regaloSeleccionado) return;
 
   $('modalTitulo').textContent = `Reservar regalo para ${regaloSeleccionado.nombre_nino}`;
