@@ -14,21 +14,8 @@ async function cargarRegalos() {
     $('grid').innerHTML = '<p class="mensaje error">No se pudo cargar la lista. Recarga la página.</p>';
     return;
   }
-  llenarFiltroInstituciones(TODOS_LOS_REGALOS);
   renderResumen(TODOS_LOS_REGALOS);
   aplicarFiltros();
-}
-
-function llenarFiltroInstituciones(data) {
-  const select = $('filtroInstitucion');
-  const actuales = new Set([...select.options].map(o => o.value));
-  [...new Set(data.map(r => r.institucion))].sort().forEach(inst => {
-    if (actuales.has(inst)) return;
-    const opcion = document.createElement('option');
-    opcion.value = inst;
-    opcion.textContent = inst;
-    select.appendChild(opcion);
-  });
 }
 
 function renderResumen(data) {
@@ -83,7 +70,6 @@ function aplicarFiltros() {
 
 function aplicarFiltrosSinReiniciarPagina() {
   const texto = $('buscador').value.trim().toLowerCase();
-  const institucion = $('filtroInstitucion').value;
   const estado = $('filtroEstado').value;
 
   renderGrid(TODOS_LOS_REGALOS.filter(r => {
@@ -92,12 +78,11 @@ function aplicarFiltrosSinReiniciarPagina() {
       r.opcion1.toLowerCase().includes(texto) ||
       (r.opcion2 || '').toLowerCase().includes(texto);
     return enTexto &&
-      (!institucion || r.institucion === institucion) &&
       (!estado || r.estado === estado);
   }));
 }
 
-['buscador', 'filtroInstitucion', 'filtroEstado'].forEach(id => {
+['buscador', 'filtroEstado'].forEach(id => {
   $(id).addEventListener('input', aplicarFiltros);
   $(id).addEventListener('change', aplicarFiltros);
 });
